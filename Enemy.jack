@@ -1,0 +1,61 @@
+class Enemy {
+    // declaracion de variables y objetos asociados
+    field boolean animation=false;
+    field int counter,x,y;
+    field Projectile shotA, shotB, ShotC;
+
+    //define los valores del enemigo
+    constructor Enemy new(int vx, int vy, int count){
+        let x = vx;
+        let y = vy;
+        let counter = count;
+    }
+
+    method void dispose(){
+        do Memory.deAlloc(this);
+        return;
+    }
+    // updates the current animation status, and updates the shots 
+    method void update(int x,int y){
+        do drawAnimated();
+        do shotA.update(); 
+        do shotB.update();
+        do ShotC.update();
+        return;
+    }
+
+    method boolean verifyCollision(int x, int y){
+        return false;
+    }
+    method void drawA() {
+        // dibuja el estado 1
+        do Screen.setColor(true);
+        //draws horizontal bar
+        do Screen.drawRectangle(x,y+2,(x+4)+30,(y+4)+30);
+        //draws vertical bar
+        do Screen.drawRectangle(x+1,y,(x+3)+30,(y+4)+30);
+        return;
+    }
+    method void drawB() {
+        // dibuja el estado 1
+        do Screen.setColor(true);
+        //draws horizontal bar
+        do Screen.drawRectangle(x,y+2,(x+4)+30,(y+4)+30);
+        //draws vertical bar
+        do Screen.drawRectangle(x+1,y+1,(x+3)+30,(y+4)+30);
+        return;
+    }
+
+    method void drawAnimated(){
+    //alterna entre draw A y B
+         if (animation){
+            do drawB();
+            let animation=false;
+        }else{
+            do drawA();
+            let animation=true:
+        }
+         return
+    }
+
+}

@@ -1,0 +1,148 @@
+class Character {
+    
+    //define la locacion de el jugador
+
+    field int x,y;
+
+    //define la locacion de la meta
+
+    field int fx,fy;
+    //constructor de el jugador
+    constructor Character new(int sx,int sy,int finx,int finy){
+        let x = sx;
+        let y = sy;
+        let fx = finx;
+        let fy = finy;
+    
+        //dibuja el sprite de el jugador
+        
+        do draw();
+        do drawfinish();
+
+        return this;
+    }
+    //purga el jugador
+    
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+    // dibuja el jugador
+    method void draw() {
+        do Screen.setColor(true);
+        //draws horizontal bar
+        do Screen.drawRectangle(x,y+1,(x+4)+30,(y+3)+30);
+        //draws vertical bar
+        do Screen.drawRectangle(x+1,y+4,x+3,y);
+        // dibuja la meta 
+        return;
+    }
+    // borra el jugador
+    method void erase() {
+        do Screen.setColor(false);
+        //draws horizontal bar
+        do Screen.drawRectangle(x,y+1,(x+4)+30,(y+3)+30);
+        //draws vertical bar
+        do Screen.drawRectangle(x+1,y+4,x+3,y);
+        return;
+    }
+    //dibuja la meta 
+    method void drawfinish(){
+        //draws a box
+        do Screen.setColor(true);
+        do Screen.drawRectangle(fx,fy,(fx+4)+30,(fy+4)+30);
+        //draws a space on the box
+        do Screen.setColor(false);
+        do Screen.drawRectangle(fx+1,fy+1,(fx+3)+30,(fy+3)+30);
+        return;
+    }
+    method void erasefinish(){
+        //draws a box
+        do Screen.setColor(false);
+        do Screen.drawRectangle(fx,fy,(fx+4)+30,(fy+4)+30);
+        return;
+    }
+
+    //movement functions
+    
+    method void moveUp(){
+        if (y>1){
+            do Screen.setColor(false);
+            //erases character
+            do Screen.drawRectangle(x,y+1,(fx+4)+30,(fy+3)+30);
+            do Screen.drawRectangle(x+1,y+4,(x+3)+30,(y)+30);
+            let y=y-2;
+            do Screen.setColor(true);
+            do Screen.drawRectangle(x,y+1,(fx+4)+30,(fy+3)+30);
+            do Screen.drawRectangle(x+1,y+4,(x+3)+30,(y)+30);
+        }
+        return;
+    }
+
+    method void moveLeft(){
+        if (x > 1) {
+            do Screen.setColor(false);
+            //erases character
+            do Screen.drawRectangle(x,y+1,(fx+4)+30,(fy+3)+30);
+            do Screen.drawRectangle(x+1,y+4,(x+3)+30,(y)+30);
+            let x = x - 2;
+            do Screen.setColor(true);
+            do Screen.drawRectangle(x,y+1,(fx+4)+30,(fy+3)+30);
+            do Screen.drawRectangle(x+1,y+4,(x+3)+30,(y)+30);
+        }
+        return;
+    }
+    
+    method void moveRight(){
+        if (x < 510) {
+            do Screen.setColor(false);
+            //erases character
+            do Screen.drawRectangle(x,y+1,(fx+4)+30,(fy+3)+30);
+            do Screen.drawRectangle(x+1,y+4,(x+3)+30,(y)+30);
+            let x = x + 2;
+            do Screen.setColor(true);
+            do Screen.drawRectangle(x,y+1,(fx+4)+30,(fy+3)+30);
+            do Screen.drawRectangle(x+1,y+4,(x+3)+30,(y)+30);
+            }
+        return;
+        }
+
+    method void moveDown(){
+        if (y < 254) {
+            do Screen.setColor(false);
+            //erases character
+            do Screen.drawRectangle(x,y+1,(fx+4)+30,(fy+3)+30);
+            do Screen.drawRectangle(x+1,y+4,(x+3)+30,(y)+30);
+            let y = y + 2;
+            do Screen.setColor(true);
+            do Screen.drawRectangle(x,y+1,(fx+4)+30,(fy+3)+30);
+            do Screen.drawRectangle(x+1,y+4,(x+3)+30,(y)+30);
+        }
+        return;
+    }
+
+    
+    //metodos para retornar la poscicion de 
+    //x,y de el personaje
+    
+    method int getx(){
+        return x;
+    }
+    method int gety(){
+        return y;
+    }
+    //metodo para confirmar 
+    //la colicion con la meta
+    
+    method boolean win(){
+        // el personaje tiene que estar 
+        // entre x y y
+        
+        if(x = fx){
+            if(y = fy){
+                return true;
+            }
+        }
+        return false;
+    }
+}

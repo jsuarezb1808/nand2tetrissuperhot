@@ -1,0 +1,11 @@
+class Main{
+
+    function void main(){
+        var SuperHot game;
+        let game=SuperHot.new();
+        do game.run();
+        do game.dispose();
+        return;
+    }
+
+}

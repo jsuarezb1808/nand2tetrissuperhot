@@ -1,0 +1,212 @@
+class SuperHot {
+    // the player and 2 enemies
+    field Character character;
+    field Enemy enemya,enemyb;
+    
+    // field Map map;
+
+    // the direction in which the player moves
+    field int direction; 
+
+    // constructor of the new game 
+    constructor SuperHot new(){
+        // personaje, poscision inicial de "x" y "y", y los "x" y "y" de la meta
+        let character=Character.new(5,5,15,15);
+        // 2 enemigos poscision inicial de "x" y "y", "count" define frecuencia de disparo 
+        let enemya=Enemy.new(15,20,3);
+        let enemyb=Enemy.new(20,30,3);
+
+        //let map=Map.new();
+
+        let direction=0;
+        return this;
+    }
+
+    // purga el juego
+    method void dispose(){
+        do character.dispose();
+        do enemya.dispose();
+        do enemyb.dispose();
+
+        // do map.dispose();
+
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void run(){
+        //variable que registra las teclas, y si el juego termina por muerte
+        var boolean gameover;
+        var char key;
+        // seteamos el juego como "no perdido"
+        let gameover = false;
+
+        //se ejecuta siempre que no se pierda
+        while (~gameover){
+             
+            //siempre que no se presione una tecla se queda en
+            //este loop esperando a setear la tecla presionada
+            //una vez se presiona la tecla, mueve el personaje, y 
+            //activa los enemigos para que disparen si ya pueden hacerlo
+            
+
+            while (key = 0){
+                let key=Keyboard.keyPressed();
+                let gameover=action();
+            }
+            // define la direccion en la que se mueve el personaje
+            //Nota: valores definidos para la direccion en base a un keypad
+            //arriba
+            if (key=131){
+                let direction=8;    
+            }
+            // abajo
+            if (key=133){
+                let direction=2;    
+            }
+            //derecha
+            if (key=132){
+                let direction=4;    
+            }
+            //izquierda
+            if (key=130){
+                let direction=6;    
+            }
+            
+            //mantiene todo el juego activo siempre que la tecla
+            //permanezca presionada, una vez se suelta, vuelve a pausar todo
+            
+            while (~(key = 0)){
+                let key=Keyboard.keyPressed();
+                let gameover=action();
+            }
+        }
+        //inserte
+        //gameover
+        //aqui
+
+        return;
+
+    }
+     
+    //coordinador del juego, se encarga de activar
+    //todo lo que se deba activar una vez que se
+    //necesite posterior a una accion del jugador
+    
+    method boolean action(){
+        var int newx;
+        var int newy;
+        
+        //dependiendo de la direccion mueve el
+        //personaje, y activa los enemigos, y corre las verificaciones necesarias
+         
+
+        //arriba 
+        if (direction =8){
+
+            //se debe comparar la posicion de el personaje desde el mapa,
+            //si el movimiento es valido se procede con el movimiento de el personaje
+            //de lo contrario solo se actualiza el enemigo
+            
+            //ejecuta el codigo para mover y obtener 
+            //la poscision de el personaje  
+            do character.moveUp();
+            let newx=character.getx();
+            let newy=character.gety();
+            //corre la actualizacion de los enemigos 
+            do enemya.update(newx,newy);
+            do enemyb.update(newx,newy);
+
+            //los enemigos confirman si existe una colision y devuelven true,
+            //para actualizar el estado de gameover
+             
+            if (enemya.verifyCollision(newx,newy)){
+                return true;
+            }
+            if (enemyb.verifyCollision(newx,newy)){
+                return true;
+            }
+        }
+        //izquierda 
+        if (direction =4){
+
+            //se debe comparar la posicion de el personaje desde el mapa,
+            //si el movimiento es valido se procede con el movimiento de el personaje
+            //de lo contrario solo se actualiza el enemigo
+            
+            //ejecuta el codigo para mover y obtener 
+            //la poscision de el personaje  
+            do character.moveLeft();
+            let newx=character.getx();
+            let newy=character.gety();
+            //corre la actualizacion de los enemigos 
+            do enemya.update(newx,newy);
+            do enemyb.update(newx,newy);
+             
+            //los enemigos confirman si existe una colision y devuelven true,
+            //para actualizar el estado de gameover 
+            if (enemya.verifyCollision(newx,newy)){
+                return true;
+            }
+            if (enemyb.verifyCollision(newx,newy)){
+                return true;
+            }
+        }
+        //derecha 
+        if (direction =6){
+
+            //se debe comparar la posicion de el personaje desde el mapa,
+            //si el movimiento es valido se procede con el movimiento de el personaje
+            //de lo contrario solo se actualiza el enemigo
+            
+            //ejecuta el codigo para mover y obtener 
+            //la poscision de el personaje 
+            do character.moveRight();
+            let newx=character.getx();
+            let newy=character.gety();
+            //corre la actualizacion de los enemigos 
+            do enemya.update(newx,newy);
+            do enemyb.update(newx,newy);
+             
+            //los enemigos confirman si existe una colision y devuelven true,
+            //para actualizar el estado de gameover 
+            if (enemya.verifyCollision(newx,newy)){
+                return true;
+            }
+            if (enemyb.verifyCollision(newx,newy)){
+                return true;
+            }
+        }
+        //abajo 
+        if (direction =2){
+
+            //se debe comparar la posicion de el personaje desde el mapa,
+            //si el movimiento es valido se procede con el movimiento de el personaje
+            //de lo contrario solo se actualiza el enemigo
+            
+            //ejecuta el codigo para mover y obtener 
+            //la poscision de el personaje 
+            do character.moveDown();
+            let newx=character.getx();
+            let newy=character.gety();
+            //corre la actualizacion de los enemigos 
+            do enemya.update(newx,newy);
+            do enemyb.update(newx,newy);
+            //los enemigos confirman si existe una colision y devuelven true,
+            //para actualizar el estado de gameover 
+            if (enemya.verifyCollision(newx,newy)){
+                return true;
+            }
+            if (enemyb.verifyCollision(newx,newy)){
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+    //lo que sea que haga cuando se acabe el juego
+    method void gameover(){
+        return;
+    }
+}
